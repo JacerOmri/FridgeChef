@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simple launcher icon: a green circle with a white cooking pot. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#2E7D32"
+        android:pathData="M54,4a50,50 0,1 1,0 100a50,50 0,1 1,0 -100z" />
+    <!-- pot body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,48h52v18c0,9 -7,16 -16,16h-20c-9,0 -16,-7 -16,-16z" />
+    <!-- lid -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,42h60v4h-60z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M48,34h12v6h-12z" />
+    <!-- handles -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M18,52h10v5h-10zM80,52h10v5h-10z" />
+    <!-- steam -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M44,28c-3,-4 3,-6 0,-10M54,28c-3,-4 3,-6 0,-10M64,28c-3,-4 3,-6 0,-10" />
+</vector>
