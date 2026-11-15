@@ -2,7 +2,11 @@ name: Build APK
 
 on:
   push:
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -21,8 +25,32 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew --no-daemon assembleDebug testDebugUnitTest
+          cp app/build/outputs/apk/debug/app-debug.apk FridgeChef.apk
 
       - uses: actions/upload-artifact@v4
         with:
           name: FridgeChef-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: FridgeChef.apk
+
+      # Latest APK as a GitHub Release, easy to download straight onto a phone.
+      - name: Publish "latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest FridgeChef.apk \
+            --title "FridgeChef (latest build)" \
+            --notes "Debug build from ${GITHUB_SHA::7}. Download FridgeChef.apk on your phone and open it to install." \
+            --target "$GITHUB_SHA"
+
+      # Also keep the APK on an orphan "apk" branch (fetchable with plain git).
+      - name: Push APK to apk branch
+        run: |
+          mkdir /tmp/apkbranch && cp FridgeChef.apk /tmp/apkbranch/
+          cd /tmp/apkbranch
+          git init -q -b apk
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add FridgeChef.apk
+          git commit -q -m "APK from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" apk
